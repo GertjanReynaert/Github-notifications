@@ -9,10 +9,30 @@ import {
   AppRegistry,
   StyleSheet,
   Text,
-  View
+  View,
 } from 'react-native';
+import { white, black } from './src/colors';
 
-export default class github_notifications extends Component {
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: white,
+  },
+  welcome: {
+    fontSize: 20,
+    textAlign: 'center',
+    margin: 10,
+  },
+  instructions: {
+    textAlign: 'center',
+    color: black,
+    marginBottom: 5,
+  },
+});
+
+export default class GithubNotifications extends Component {
   render() {
     return (
       <View style={styles.container}>
@@ -31,23 +51,4 @@ export default class github_notifications extends Component {
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
-});
-
-AppRegistry.registerComponent('github_notifications', () => github_notifications);
+AppRegistry.registerComponent('github_notifications', () => GithubNotifications);
