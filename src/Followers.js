@@ -1,6 +1,7 @@
 // @flow
 import React, { Component } from 'react';
 import { View, Text, Image, ActivityIndicator, StyleSheet } from 'react-native';
+import { connect } from 'react-refetch';
 
 const styles = StyleSheet.create({
   view: {
@@ -18,31 +19,51 @@ const styles = StyleSheet.create({
   },
 });
 
+type Props = {
+  followers: {
+    pending: Boolean,
+    rejected: Boolean,
+    value: Array<Object>,
+  },
+};
+
 class Followers extends Component {
+  props: Props
   constructor(props) {
     super(props);
     this.state = {
       user: 'GertjanReynaert',
-      followers: null,
     };
   }
 
-  componentWillMount() {
-    this.setState({ status: 'loading' });
-    fetch(`https://api.github.com/users/${this.state.user}/followers`)
-      .then(response => response.json())
-      .then((responseJson) => {
-        this.setState({
-          status: 'success',
-          followers: responseJson,
-        });
-      })
-      .catch((error) => {
-        this.setState({
-          status: 'error',
-          error,
-        });
-      });
+  renderFollowers() {
+    // Should be a separate component!
+    if (this.props.followers.pending) {
+      return <ActivityIndicator small />;
+    }
+
+    if (this.props.followers.rejected) {
+      return (
+        <Text>
+          Error: {JSON.stringify(this.state.error, null, 2)}
+        </Text>
+      );
+    }
+
+    return (
+      <View>
+        <Text>
+          Followers: {this.props.followers.value.length}
+        </Text>
+        <View style={styles.followersList}>
+          {
+            this.props.followers.value.map(follower => (
+              <Image source={{ uri: follower.avatar_url }} style={styles.avatar} />
+            ))
+          }
+        </View>
+      </View>
+    );
   }
 
   render() {
@@ -52,34 +73,13 @@ class Followers extends Component {
           User: { this.state.user }
         </Text>
         {
-          this.state.status === 'loading' && <ActivityIndicator small />
-        }
-        {
-          this.state.status === 'error' && (
-            <Text>
-              Error: {JSON.stringify(this.state.error, null, 2)}
-            </Text>
-          )
-        }
-        {
-          this.state.status === 'success' && (
-            <View>
-              <Text>
-                Followers: {this.state.followers.length}
-              </Text>
-              <View style={styles.followersList}>
-                {
-                  this.state.followers.map(follower => (
-                    <Image source={{ uri: follower.avatar_url }} style={styles.avatar} />
-                  ))
-                }
-              </View>
-            </View>
-          )
+          this.renderFollowers()
         }
       </View>
     );
   }
 }
 
-export default Followers;
+export default connect(() => ({
+  followers: 'https://api.github.com/users/GertjanReynaert/followers',
+}))(Followers);
