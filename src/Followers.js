@@ -1,6 +1,6 @@
 // @flow
 import React, { Component } from 'react';
-import { View, Text, Image, StyleSheet } from 'react-native';
+import { View, Text, Image, ActivityIndicator, StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
   view: {
@@ -28,13 +28,21 @@ class Followers extends Component {
   }
 
   componentWillMount() {
+    this.setState({ status: 'loading' });
     fetch(`https://api.github.com/users/${this.state.user}/followers`)
       .then(response => response.json())
       .then((responseJson) => {
-        console.log(responseJson);
-        this.setState({ followers: responseJson });
+        this.setState({
+          status: 'success',
+          followers: responseJson,
+        });
       })
-      .catch((error) => { console.error(error); });
+      .catch((error) => {
+        this.setState({
+          status: 'error',
+          error,
+        });
+      });
   }
 
   render() {
@@ -43,18 +51,32 @@ class Followers extends Component {
         <Text>
           User: { this.state.user }
         </Text>
-        <Text>
-          Followers: { this.state.followers ? this.state.followers.length : '...Loading' }
-        </Text>
-        <View style={styles.followersList}>
-          {
-            this.state.followers
-            ? this.state.followers.map(follower => (
-              <Image source={{ uri: follower.avatar_url }} style={styles.avatar} />
-            ))
-            : <View />
-          }
-        </View>
+        {
+          this.state.status === 'loading' && <ActivityIndicator small />
+        }
+        {
+          this.state.status === 'error' && (
+            <Text>
+              Error: {JSON.stringify(this.state.error, null, 2)}
+            </Text>
+          )
+        }
+        {
+          this.state.status === 'success' && (
+            <View>
+              <Text>
+                Followers: {this.state.followers.length}
+              </Text>
+              <View style={styles.followersList}>
+                {
+                  this.state.followers.map(follower => (
+                    <Image source={{ uri: follower.avatar_url }} style={styles.avatar} />
+                  ))
+                }
+              </View>
+            </View>
+          )
+        }
       </View>
     );
   }
