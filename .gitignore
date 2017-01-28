@@ -52,6 +52,9 @@ fastlane/report.xml
 fastlane/Preview.html
 fastlane/screenshots
 
+# cocoapods
+ios/Pods/
+
 # Custom
 .vscode
 .vscode/*
