@@ -55,3 +55,4 @@ fastlane/screenshots
 # Custom
 .vscode
 .vscode/*
+ios/Pods/
