@@ -1,7 +1,9 @@
 // @flow
 import React, { Component } from 'react';
-import { View, Text, Image, TextInput, TouchableHighlight, StyleSheet } from 'react-native';
+import { View, Text, Image, TextInput, StyleSheet } from 'react-native';
 import githubLogo from '../assets/github_logo.png';
+import Button from '../components/Button';
+import { lightgray } from '../colors';
 
 const styles = StyleSheet.create({
   container: {
@@ -29,31 +31,16 @@ const styles = StyleSheet.create({
   input: {
     height: 50,
     borderWidth: 1,
-    borderColor: 'lightgray',
+    borderColor: lightgray,
     borderRadius: 5,
     marginTop: 15,
     marginBottom: 15,
     paddingLeft: 15,
   },
-  button: {
-    alignSelf: 'stretch',
-    height: 50,
-    backgroundColor: 'whitesmoke',
-    borderWidth: 1,
-    borderColor: 'lightgray',
-    borderRadius: 5,
-    padding: 15,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  buttonText: {
-    fontSize: 18,
-    fontWeight: 'bold',
-  },
   horizontalRow: {
     alignSelf: 'stretch',
     borderWidth: 0.5,
-    borderColor: 'lightgray',
+    borderColor: lightgray,
     marginTop: 50,
     marginBottom: 50,
   },
@@ -78,17 +65,17 @@ class Login extends Component {
           </Text>
           <TextInput style={styles.input} secureTextEntry />
 
-          <View style={styles.button}>
-            <Text style={styles.buttonText}>Sign in</Text>
-          </View>
+          <Button
+            title="Sign in"
+            onPress={() => console.log('login')}
+          />
 
           <View style={styles.horizontalRow} />
 
-          <TouchableHighlight onPress={() => console.log('press')} underlayColor="lightgray" style={{ borderRadius: 5 }}>
-            <View style={styles.button}>
-              <Text style={styles.buttonText}>OAuth Login</Text>
-            </View>
-          </TouchableHighlight>
+          <Button
+            title="OAuth Login"
+            onPress={() => console.log('oauth')}
+          />
         </View>
       </View>
     );
