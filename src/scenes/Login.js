@@ -46,7 +46,23 @@ const styles = StyleSheet.create({
   },
 });
 
+type Props = {
+  login: () => void,
+  oAuthLogin: () => void,
+};
+
 class Login extends Component {
+  props: Props
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      username: '',
+      password: '',
+    };
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -58,23 +74,32 @@ class Login extends Component {
           <Text style={styles.inputLabel}>
             Username or email
           </Text>
-          <TextInput style={styles.input} autoCapitalize="none" keyboardType="email-address" />
+          <TextInput
+            style={styles.input}
+            autoCapitalize="none"
+            keyboardType="email-address"
+            onChangeText={text => this.setState({ username: text })}
+          />
 
           <Text style={styles.inputLabel}>
             Password
           </Text>
-          <TextInput style={styles.input} secureTextEntry />
+          <TextInput
+            style={styles.input}
+            secureTextEntry
+            onChangeText={text => this.setState({ password: text })}
+          />
 
           <Button
             title="Sign in"
-            onPress={() => console.log('login')}
+            onPress={() => this.props.login(this.state.username, this.state.password)}
           />
 
           <View style={styles.horizontalRow} />
 
           <Button
             title="OAuth Login"
-            onPress={() => console.log('oauth')}
+            onPress={() => this.props.oAuthLogin()}
           />
         </View>
       </View>
