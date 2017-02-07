@@ -5,48 +5,30 @@
  */
 
 import React, { Component } from 'react';
-import { View, Text, AppRegistry } from 'react-native';
-// import { StackNavigator } from 'react-navigation';
-// import FollowersNavigationWrapper from './src/FollowersNavigationWrapper';
-// import Followers from './src/Followers';
+import { Text, AppRegistry } from 'react-native';
+
 import OAuthManager from 'react-native-oauth';
+import { connect } from 'react-refetch';
+
+import { GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET } from './env';
+
 import Login from './src/scenes/Login';
 
-// type Props = {
-//   navigation: Object,
-// };
-
-// class GithubNotifications extends Component {
-//   props: Props
-
-//   static navigationOptions = {
-//     title: 'GertjanReynaert',
-//   };
-
-//   render() {
-//     return (
-//       <Followers
-//         user="GertjanReynaert"
-//         goTo={user => this.props.navigation.navigate('User', { user })}
-//       />
-//     );
-//   }
-// }
-
-// const Navigation = StackNavigator({
-//   Initial: { screen: GithubNotifications },
-//   User: { screen: FollowersNavigationWrapper },
-// });
-
 const manager = new OAuthManager('ghnotifications');
+
 manager.configure({
   github: {
-    client_id: '9c60d68459c805cd2b58',
-    client_secret: 'dfd27c57a4ae148a280cd89826650235460de016',
+    client_id: GITHUB_CLIENT_ID,
+    client_secret: GITHUB_CLIENT_SECRET,
   },
 });
 
+type Props = {
+  getNotifications: () => void,
+};
+
 class GithubNotifications extends Component {
+  props: Props;
   constructor(props) {
     super(props);
 
@@ -57,17 +39,16 @@ class GithubNotifications extends Component {
 
   render() {
     const authorize = () => {
-      console.log('enter authorize');
       manager.authorize('github')
-        .then(resp => console.log('Your users ID', resp))
+        .then((resp) => { this.setState({ accessToken: resp.response.credentials.accessToken }); })
         .catch(err => console.log('There was an error', err));
     };
 
     if (this.state.accessToken === undefined) {
       return (
         <Login
-          login={(...props) => { console.log(props)}}
-          oAuthLogin={() => this.authorize()}
+          login={(username, password) => this.props.getNotifications({ username, password })}
+          oAuthLogin={authorize}
         />
       );
     }
@@ -78,4 +59,16 @@ class GithubNotifications extends Component {
   }
 }
 
-AppRegistry.registerComponent('github_notifications', () => GithubNotifications);
+const connectedNotifications = connect(() => ({
+  getNotifications: ({ username, password }) => ({
+    notifications: {
+      url: 'https://api.github.com/users/notifications',
+      headers: {
+        Host: 'api.github.com',
+        Authorization: `Basic ${btoa(`${username}:${password}`)}`,
+      },
+    },
+  }),
+}))(GithubNotifications);
+
+AppRegistry.registerComponent('github_notifications', () => connectedNotifications);
