@@ -1,14 +1,19 @@
 // @flow
 import React, { Component, PropTypes } from 'react';
-import { View, ListView, ActivityIndicator, Text, Image, StyleSheet } from 'react-native';
+import { View, ListView, ActivityIndicator, Image, StyleSheet } from 'react-native';
 import { connect } from 'react-refetch';
 
 import notificationsIcon from '../../assets/notifications.png';
+
+import NotificationEntry from './NotificationEntry';
 
 const styles = StyleSheet.create({
   icon: {
     width: 26,
     height: 26,
+  },
+  wrapper: {
+    paddingTop: 25,
   },
 });
 
@@ -46,20 +51,13 @@ class Notifications extends Component {
       return <ActivityIndicator small />;
     }
 
-    console.log(JSON.stringify(this.props.notifications.value[0], null, 2));
-
     const notifications = this.dataSource.cloneWithRows(this.props.notifications.value);
 
     return (
-      <View style={{ paddingTop: 25 }}>
+      <View style={styles.wrapper}>
         <ListView
-          style={{}}
           dataSource={notifications}
-          renderRow={
-            ({ subject }) => (
-              <Text>{subject.title}</Text>
-            )
-          }
+          renderRow={notification => <NotificationEntry notification={notification} />}
         />
       </View>
     );
@@ -68,7 +66,7 @@ class Notifications extends Component {
 
 export default connect((props, context) => ({
   notifications: {
-    url: 'https://api.github.com/notifications?all=true',
+    url: 'https://api.github.com/notifications',
     headers: {
       Authorization: `token ${context.accessToken}`,
     },
