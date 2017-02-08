@@ -1,28 +1,31 @@
-// import { StackNavigator } from 'react-navigation';
-// import FollowersNavigationWrapper from './src/FollowersNavigationWrapper';
-// import Followers from './src/Followers';
-// type Props = {
-//   navigation: Object,
-// };
+import { StackNavigator } from 'react-navigation';
+import FollowersNavigationWrapper from './src/FollowersNavigationWrapper';
+import Followers from './src/Followers';
+type Props = {
+  navigation: Object,
+};
 
-// class GithubNotifications extends Component {
-//   props: Props
+class GithubNotifications extends Component {
+  props: Props
 
-//   static navigationOptions = {
-//     title: 'GertjanReynaert',
-//   };
+  static navigationOptions = {
+    title: 'GertjanReynaert',
+  };
 
-//   render() {
-//     return (
-//       <Followers
-//         user="GertjanReynaert"
-//         goTo={user => this.props.navigation.navigate('User', { user })}
-//       />
-//     );
-//   }
-// }
+  render() {
+    return (
+      <Followers
+        user="GertjanReynaert"
+        goTo={user => this.props.navigation.navigate('User', { user })}
+      />
+    );
+  }
+}
 
-// const Navigation = StackNavigator({
-//   Initial: { screen: GithubNotifications },
-//   User: { screen: FollowersNavigationWrapper },
-// });
+const Navigation = StackNavigator({
+  Initial: { screen: Login },
+  Notifications: { screen: FollowersNavigationWrapper },
+  Followers: { screen: FollowersNavigationWrapper },
+});
+
+export default Navigation;
