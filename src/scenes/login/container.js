@@ -47,8 +47,11 @@ class GithubNotifications extends Component {
     manager.savedAccounts()
     .then(({ accounts }) => {
       const account = accounts.find(acnt => acnt.provider === 'github');
-      this.setState({ accessToken: account.response.credentials.accessToken });
-    });
+      if (account) {
+        this.setState({ accessToken: account.response.credentials.accessToken });
+      }
+    })
+    .catch(err => console.log('retrieve savedAccounts error:', err));
   }
 
   componentWillUnmount() {
