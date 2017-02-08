@@ -4,6 +4,7 @@ import { View, Image, Text, StyleSheet } from 'react-native';
 
 import issueIcon from '../../assets/octicons_4-3-0_issue-opened_128_0_000000_none.png';
 import pullRequestIcon from '../../assets/octicons_4-3-0_git-pull-request_128_0_000000_none.png';
+import commitIcon from '../../assets/octicons_4-3-0_git-commit_128_0_000000_none.png';
 import face from '../../assets/octicons_4-3-0_octoface_128_0_000000_none.png';
 import checkMark from '../../assets/octicons_4-3-0_check_128_0_000000_none.png';
 
@@ -87,6 +88,10 @@ class NotificationEntry extends Component {
       PullRequest: {
         icon: pullRequestIcon,
         color: red,
+      },
+      Commit: {
+        icon: commitIcon,
+        color: gray,
       },
     };
 
