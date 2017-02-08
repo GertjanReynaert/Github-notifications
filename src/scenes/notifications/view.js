@@ -1,6 +1,6 @@
 // @flow
 import React, { Component, PropTypes } from 'react';
-import { Image, Text, StyleSheet } from 'react-native';
+import { Image, Text, ActivityIndicator, StyleSheet } from 'react-native';
 import { connect } from 'react-refetch';
 
 import notifications from '../../assets/notifications.png';
@@ -27,13 +27,18 @@ class Notifications extends Component {
   }
 
   render() {
-    return <Text style={{ padding: 25 }}>{JSON.stringify(this.props.notifications)}</Text>;
+    console.log(this.props.notifications);
+    if (this.props.notifications.pending) {
+      return <ActivityIndicator small />;
+    }
+
+    return <Text style={{ padding: 25 }}>{JSON.stringify(this.props.notifications.value[0])}</Text>;
   }
 }
 
 export default connect((props, context) => ({
   notifications: {
-    url: 'https://api.github.com/notifications',
+    url: 'https://api.github.com/notifications?all=true',
     headers: {
       Authorization: `token ${context.accessToken}`,
     },
