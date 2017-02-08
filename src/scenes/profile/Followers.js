@@ -24,6 +24,7 @@ const styles = StyleSheet.create({
     width: 75,
     height: 75,
     margin: 4,
+    borderRadius: 5,
   },
   userInfo: {
     flex: 1,

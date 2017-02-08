@@ -1,7 +1,6 @@
 // @flow
 
 import React, { Component } from 'react';
-import { Text } from 'react-native';
 
 import OAuthManager from 'react-native-oauth';
 import { connect } from 'react-refetch';
@@ -9,6 +8,7 @@ import { connect } from 'react-refetch';
 import { GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET } from '../../../env';
 
 import Login from './view';
+import TabNavigation from '../Navigation';
 
 const manager = new OAuthManager('ghnotifications');
 
@@ -50,7 +50,7 @@ class GithubNotifications extends Component {
     }
 
     return (
-      <Text>Authorised root view</Text>
+      <TabNavigation />
     );
   }
 }
