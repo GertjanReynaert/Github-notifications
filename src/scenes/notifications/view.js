@@ -1,6 +1,6 @@
 // @flow
 import React, { Component, PropTypes } from 'react';
-import { View, ListView, ActivityIndicator, Image, SegmentedControlIOS, StyleSheet } from 'react-native';
+import { View, Image, SegmentedControlIOS, StyleSheet } from 'react-native';
 import { connect } from 'react-refetch';
 
 import notificationsIcon from '../../assets/notifications.png';
@@ -58,21 +58,14 @@ class Notifications extends Component {
           values={['All', 'Participating']}
           selectedIndex={this.state.activeTab}
           onChange={(event) => {
-            this.setState({ tabIndex: event.nativeEvent.selectedSegmentIndex });
+            this.setState({ activeTab: event.nativeEvent.selectedSegmentIndex });
           }}
         />
 
-        <NotificationList tab={this.state.tabIndex === 0 ? 'all' : 'participating'} />
+        <NotificationList tab={this.state.activeTab === 0 ? 'all' : 'participating'} />
       </View>
     );
   }
 }
 
-export default connect((props, context) => ({
-  notifications: ({
-    url: 'https://api.github.com/notifications',
-    headers: {
-      Authorization: `token ${context.accessToken}`,
-    },
-  }),
-}))(Notifications);
+export default Notifications;

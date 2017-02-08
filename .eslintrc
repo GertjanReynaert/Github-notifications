@@ -19,6 +19,7 @@
           "props",
           "context",
           "state",
+          "static-methods",
           "defaultProps",
           "constructor",
           "lifecycle",
