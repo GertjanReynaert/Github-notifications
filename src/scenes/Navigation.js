@@ -1,11 +1,10 @@
-import React from 'react';
-import { Text } from 'react-native';
 import { TabNavigator } from 'react-navigation';
 
+import Notifications from './notifications/view';
 import Profile from './profile/Navigation';
 
 const Navigation = TabNavigator({
-  Notifications: { screen: () => <Text>Notifications</Text> },
+  Notifications: { screen: Notifications },
   Profile: { screen: Profile },
 });
 
