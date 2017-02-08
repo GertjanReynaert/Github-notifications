@@ -1,9 +1,9 @@
 // @flow
 import React, { Component } from 'react';
 import { View, Text, Image, TextInput, StyleSheet } from 'react-native';
-import githubLogo from '../assets/github_logo.png';
-import Button from '../components/Button';
-import { lightgray } from '../colors';
+import githubLogo from '../../assets/github_logo.png';
+import Button from '../../components/Button';
+import { lightgray } from '../../colors';
 
 const styles = StyleSheet.create({
   container: {
