@@ -1,28 +1,12 @@
-// import { StackNavigator } from 'react-navigation';
-// import FollowersNavigationWrapper from './src/FollowersNavigationWrapper';
-// import Followers from './src/Followers';
-// type Props = {
-//   navigation: Object,
-// };
+import React from 'react';
+import { Text } from 'react-native';
+import { TabNavigator } from 'react-navigation';
 
-// class GithubNotifications extends Component {
-//   props: Props
+import Profile from './profile/Navigation';
 
-//   static navigationOptions = {
-//     title: 'GertjanReynaert',
-//   };
+const Navigation = TabNavigator({
+  Notifications: { screen: () => <Text>Notifications</Text> },
+  Profile: { screen: Profile },
+});
 
-//   render() {
-//     return (
-//       <Followers
-//         user="GertjanReynaert"
-//         goTo={user => this.props.navigation.navigate('User', { user })}
-//       />
-//     );
-//   }
-// }
-
-// const Navigation = StackNavigator({
-//   Initial: { screen: GithubNotifications },
-//   User: { screen: FollowersNavigationWrapper },
-// });
+export default Navigation;
