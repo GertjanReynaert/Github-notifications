@@ -1,6 +1,6 @@
 // @flow
 import React, { Component, PropTypes } from 'react';
-import { View, ListView, ActivityIndicator, Image, SegmentedControlIOS, StyleSheet } from 'react-native';
+import { View, Image, SegmentedControlIOS, StyleSheet } from 'react-native';
 import { connect } from 'react-refetch';
 
 import notificationsIcon from '../../assets/notifications.png';
