@@ -45,7 +45,7 @@ export default connect((props, context) => ({
   notifications: ({
     url: `https://api.github.com/notifications?${props.tab}=true`,
     headers: {
-      Authorization: `token ${context.accessToken}`,
+      Authorization: context.accessToken,
     },
   }),
 }))(Notifications);

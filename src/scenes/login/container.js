@@ -2,9 +2,8 @@
 
 import React, { Component, PropTypes } from 'react';
 
+import { Buffer } from 'buffer';
 import OAuthManager from 'react-native-oauth';
-import { connect } from 'react-refetch';
-
 import { GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET } from '../../../env';
 
 import Login from './view';
@@ -48,7 +47,7 @@ class GithubNotifications extends Component {
     .then(({ accounts }) => {
       const account = accounts.find(acnt => acnt.provider === 'github');
       if (account) {
-        this.setState({ accessToken: account.response.credentials.accessToken });
+        this.setOauthToken(account.response.credentials.accessToken);
       }
     })
     .catch(err => console.log('retrieve savedAccounts error:', err));
@@ -58,17 +57,30 @@ class GithubNotifications extends Component {
     manager.deauthorize('github');
   }
 
+  setBasicToken(username, password) {
+    const tokenBuffer = new Buffer(`${username}:${password}`);
+    const token = tokenBuffer.toString('base64');
+
+    this.setState({ accessToken: `basic ${token}` });
+  }
+
+  setOauthToken(token) {
+    this.setState({ accessToken: `token ${token}` });
+  }
+
   render() {
     const authorize = () => {
       manager.authorize('github', { scopes: 'notifications' })
-        .then((resp) => { this.setState({ accessToken: resp.response.credentials.accessToken }); })
+        .then((resp) => {
+          this.setOauthToken(resp.response.credentials.accessToken);
+        })
         .catch(err => console.log('There was an error', err));
     };
 
     if (this.state.accessToken === undefined) {
       return (
         <Login
-          login={(username, password) => this.props.getNotifications({ username, password })}
+          login={(username, password) => this.setBasicToken(username, password)}
           oAuthLogin={authorize}
         />
       );
@@ -80,14 +92,4 @@ class GithubNotifications extends Component {
   }
 }
 
-export default connect(() => ({
-  getNotifications: ({ username, password }) => ({
-    notifications: {
-      url: 'https://api.github.com/users/notifications',
-      headers: {
-        Host: 'api.github.com',
-        Authorization: `Basic ${btoa(`${username}:${password}`)}`,
-      },
-    },
-  }),
-}))(GithubNotifications);
+export default GithubNotifications;
