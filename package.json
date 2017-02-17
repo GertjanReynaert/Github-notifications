@@ -25,6 +25,7 @@
 		"eslint-plugin-jsx-a11y": "4.0.0",
 		"eslint-plugin-react": "6.9.0",
 		"eslint-plugin-react-native": "2.2.1",
+		"flow-bin": "^0.39.0",
 		"jest": "18.1.0",
 		"react-test-renderer": "~15.4.0-rc.4"
 	},
