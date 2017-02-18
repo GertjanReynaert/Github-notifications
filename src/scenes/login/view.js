@@ -1,6 +1,6 @@
 // @flow
 import React, { Component } from 'react';
-import { View, Text, Image, TextInput, StyleSheet } from 'react-native';
+import { View, Text, Image, TextInput, Platform, StyleSheet } from 'react-native';
 import githubLogo from '../../assets/github_logo.png';
 import Button from '../../components/Button';
 import { lightgray } from '../../colors';
@@ -9,7 +9,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 10,
-    paddingTop: 30,
+    paddingTop: Platform.OS === 'ios' ? 30 : 10,
   },
   heroImage: {
     flex: 1,
@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
     width: 300,
   },
   loginFields: {
-    flex: 2,
+    flex: 3,
     padding: 15,
   },
   inputLabel: {
@@ -41,8 +41,8 @@ const styles = StyleSheet.create({
     alignSelf: 'stretch',
     borderWidth: 0.5,
     borderColor: lightgray,
-    marginTop: 50,
-    marginBottom: 50,
+    marginTop: 40,
+    marginBottom: 40,
   },
 });
 
