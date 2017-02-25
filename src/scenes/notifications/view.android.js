@@ -1,7 +1,8 @@
 // @flow
 import React, { Component, PropTypes } from 'react';
-import { View, Image, SegmentedControlIOS, StyleSheet } from 'react-native';
-import { connect } from 'react-refetch';
+import { View, Image, StyleSheet } from 'react-native';
+
+import SegmentedControl from '../../components/SegmentedControl';
 
 import notificationsIcon from '../../assets/notifications.png';
 
@@ -14,9 +15,6 @@ const styles = StyleSheet.create({
   },
   wrapper: {
     paddingTop: 25,
-  },
-  tabs: {
-    margin: 15,
   },
 });
 
@@ -53,12 +51,12 @@ class Notifications extends Component {
   render() {
     return (
       <View style={styles.wrapper}>
-        <SegmentedControlIOS
+        <SegmentedControl
           style={styles.tabs}
           values={['All', 'Participating']}
           selectedIndex={this.state.activeTab}
-          onChange={(event) => {
-            this.setState({ activeTab: event.nativeEvent.selectedSegmentIndex });
+          onChange={(index) => {
+            this.setState({ activeTab: index });
           }}
         />
 

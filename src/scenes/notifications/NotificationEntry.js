@@ -8,12 +8,14 @@ import commitIcon from '../../assets/octicons_4-3-0_git-commit_128_0_000000_none
 import face from '../../assets/octicons_4-3-0_octoface_128_0_000000_none.png';
 import checkMark from '../../assets/octicons_4-3-0_check_128_0_000000_none.png';
 
-const red = '#BF3409';
-const green = '#71C84B';
-const blue = '#4078C0';
-const lightgray = '#EEEEEE';
-const gray = '#CCCCCC';
-const darkgray = '#767676';
+import {
+  red,
+  green,
+  blue,
+  lightgray,
+  gray,
+  darkgray,
+} from '../../colors';
 
 const styles = StyleSheet.create({
   wrapper: {

@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { View, Text, Image, TextInput, Platform, StyleSheet } from 'react-native';
 import githubLogo from '../../assets/github_logo.png';
 import Button from '../../components/Button';
-import { lightgray } from '../../colors';
+import { lightergray } from '../../colors';
 
 const styles = StyleSheet.create({
   container: {
@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
   input: {
     height: 50,
     borderWidth: 1,
-    borderColor: lightgray,
+    borderColor: lightergray,
     borderRadius: 5,
     marginTop: 15,
     marginBottom: 15,
@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
   horizontalRow: {
     alignSelf: 'stretch',
     borderWidth: 0.5,
-    borderColor: lightgray,
+    borderColor: lightergray,
     marginTop: 40,
     marginBottom: 40,
   },

@@ -1,7 +1,7 @@
 // @flow
 import React, { Component } from 'react';
 import { TouchableHighlight, Text, StyleSheet } from 'react-native';
-import { lightestgray, lightgray } from '../colors';
+import { lightestgray, lightergray } from '../colors';
 
 const styles = StyleSheet.create({
   button: {
@@ -9,7 +9,7 @@ const styles = StyleSheet.create({
     height: 50,
     backgroundColor: lightestgray,
     borderWidth: 1,
-    borderColor: lightgray,
+    borderColor: lightergray,
     borderRadius: 5,
     padding: 15,
     justifyContent: 'center',
@@ -33,7 +33,7 @@ class Button extends Component {
     return (
       <TouchableHighlight
         onPress={this.props.onPress}
-        underlayColor={lightgray}
+        underlayColor={lightergray}
         style={styles.button}
       >
         <Text style={styles.buttonText}>{this.props.title}</Text>
