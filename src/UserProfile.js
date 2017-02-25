@@ -100,7 +100,12 @@ class UserProfile extends Component {
     return (
       <View style={styles.followersList}>
         {this.props.followers.value.map(follower => (
-          <Avatar key={follower.id} url={follower.avatar_url} />
+          <Avatar
+            touchable
+            onPress={() => console.log(follower.login)}
+            url={follower.avatar_url}
+            key={follower.id}
+          />
         ))}
       </View>
     );

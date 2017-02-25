@@ -1,6 +1,6 @@
 // @flow
 import React, { Component } from 'react';
-import { Image, StyleSheet } from 'react-native';
+import { Image, TouchableOpacity, StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
   avatar: {
@@ -12,6 +12,8 @@ const styles = StyleSheet.create({
 });
 
 type Props = {
+  touchable?: boolean,
+  onPress: () => void,
   url: string
 };
 
@@ -19,6 +21,17 @@ class Avatar extends Component {
   props: Props;
 
   render() {
+    if (this.props.touchable) {
+      return (
+        <TouchableOpacity
+          style={styles.avatar}
+          onPress={() => this.props.onPress()}
+        >
+          <Image style={styles.avatar} source={{ uri: this.props.url }} />
+        </TouchableOpacity>
+      );
+    }
+
     return <Image source={{ uri: this.props.url }} style={styles.avatar} />;
   }
 }
