@@ -57,40 +57,6 @@ type Props = {
 class Followers extends Component {
   props: Props
 
-  renderFollowers() {
-    // Should be a separate component!
-    if (this.props.followers.pending) {
-      return <ActivityIndicator small />;
-    }
-
-    if (this.props.followers.rejected) {
-      return (
-        <Text>
-          Error: {JSON.stringify(this.props.followers, null, 2)}
-        </Text>
-      );
-    }
-
-    return (
-      <View style={styles.followersList}>
-        {
-          this.props.followers.value.map(follower => (
-            <TouchableHighlight
-              key={follower.id}
-              style={styles.avatar}
-              onPress={() => this.props.goTo(follower.login)}
-            >
-              <Image
-                source={{ uri: follower.avatar_url }}
-                style={styles.avatar}
-              />
-            </TouchableHighlight>
-          ))
-        }
-      </View>
-    );
-  }
-
   renderUserInfo() {
     // Should be a separate component!
     if (this.props.userInfo.pending) {
@@ -124,6 +90,40 @@ class Followers extends Component {
             Followers: {user.followers}
           </Text>
         </View>
+      </View>
+    );
+  }
+
+  renderFollowers() {
+    // Should be a separate component!
+    if (this.props.followers.pending) {
+      return <ActivityIndicator small />;
+    }
+
+    if (this.props.followers.rejected) {
+      return (
+        <Text>
+          Error: {JSON.stringify(this.props.followers, null, 2)}
+        </Text>
+      );
+    }
+
+    return (
+      <View style={styles.followersList}>
+        {
+          this.props.followers.value.map(follower => (
+            <TouchableHighlight
+              key={follower.id}
+              style={styles.avatar}
+              onPress={() => this.props.goTo(follower.login)}
+            >
+              <Image
+                source={{ uri: follower.avatar_url }}
+                style={styles.avatar}
+              />
+            </TouchableHighlight>
+          ))
+        }
       </View>
     );
   }
