@@ -1,6 +1,14 @@
 // @flow
 import React, { Component } from 'react';
-import { View, Text, Image, ActivityIndicator, StyleSheet } from 'react-native';
+import {
+  ScrollView,
+  View,
+  Text,
+  Image,
+  ActivityIndicator,
+  TouchableHighlight,
+  StyleSheet,
+} from 'react-native';
 import { connect } from 'react-refetch';
 
 const styles = StyleSheet.create({
@@ -9,17 +17,30 @@ const styles = StyleSheet.create({
     paddingTop: 35,
   },
   followersList: {
-    justifyContent: 'space-between',
     flexDirection: 'row',
     flexWrap: 'wrap',
   },
   avatar: {
     width: 75,
     height: 75,
+    margin: 4,
+  },
+  userInfo: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingBottom: 15,
+  },
+  userLeft: {
+    flex: 2,
+  },
+  userRight: {
+    flex: 5,
   },
 });
 
 type Props = {
+  goTo: () => void,
   userInfo: {
     pending: Boolean,
     rejected: Boolean,
@@ -44,7 +65,7 @@ class Followers extends Component {
     if (this.props.followers.rejected) {
       return (
         <Text>
-          Error: {JSON.stringify(this.props.followers.value, null, 2)}
+          Error: {JSON.stringify(this.props.followers, null, 2)}
         </Text>
       );
     }
@@ -53,7 +74,16 @@ class Followers extends Component {
       <View style={styles.followersList}>
         {
           this.props.followers.value.map(follower => (
-            <Image key={follower.id} source={{ uri: follower.avatar_url }} style={styles.avatar} />
+            <TouchableHighlight
+              key={follower.id}
+              style={styles.avatar}
+              onPress={() => this.props.goTo(follower.login)}
+            >
+              <Image
+                source={{ uri: follower.avatar_url }}
+                style={styles.avatar}
+              />
+            </TouchableHighlight>
           ))
         }
       </View>
@@ -69,29 +99,40 @@ class Followers extends Component {
     if (this.props.userInfo.rejected) {
       return (
         <Text>
-          Error: {JSON.stringify(this.props.followers.value, null, 2)}
+          Error: {JSON.stringify(this.props.followers, null, 2)}
         </Text>
       );
     }
 
+    const user = this.props.userInfo.value;
+
     return (
-      <View>
-        <Text>
-          User: { this.props.userInfo.value.name }
-        </Text>
-        <Text>
-          Followers: {this.props.userInfo.value.followers}
-        </Text>
+      <View style={styles.userInfo}>
+        <View style={styles.userLeft}>
+          <Image
+            source={{ uri: user.avatar_url }}
+            style={styles.avatar}
+          />
+        </View>
+        <View style={styles.userRight}>
+          <Text>Bio:</Text>
+          <Text>
+            { user.bio }
+          </Text>
+          <Text>
+            Followers: {user.followers}
+          </Text>
+        </View>
       </View>
     );
   }
 
   render() {
     return (
-      <View style={styles.view}>
+      <ScrollView style={styles.view}>
         { this.renderUserInfo() }
         { this.renderFollowers() }
-      </View>
+      </ScrollView>
     );
   }
 }
