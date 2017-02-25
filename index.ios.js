@@ -1,13 +1,13 @@
 // @flow
 
 import React, { Component } from 'react';
-import { AppRegistry, Text } from 'react-native';
+import { AppRegistry } from 'react-native';
 
-import UserProfile from './src/UserProfile';
+import App from './src/App';
 
 export default class githubNotifications extends Component {
   render() {
-    return <UserProfile user="gertjanreynaert" />;
+    return <App />;
   }
 }
 

@@ -35,83 +35,35 @@ const styles = StyleSheet.create({
 });
 
 type Props = {
-  user: string
+  getUser: () => void,
+  getFollowersForUser: () => void,
+  user: Object,
+  followers: Object
 };
 
 class UserProfile extends Component {
   props: Props;
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      userInfo: {
-        pending: true,
-        rejected: undefined,
-        value: undefined
-      },
-      followers: {
-        pending: true,
-        rejected: undefined,
-        value: undefined
-      }
-    };
-  }
-
   componentWillMount() {
-    fetch(`https://api.github.com/users/${this.props.user}`)
-      .then(response => response.json())
-      .then(responseJson => {
-        this.setState({
-          userInfo: {
-            pending: false,
-            value: responseJson
-          }
-        });
-      })
-      .catch(error => {
-        this.setState({
-          userInfo: {
-            pending: false,
-            rejected: error
-          }
-        });
-      });
-
-    fetch(`https://api.github.com/users/${this.props.user}/followers`)
-      .then(response => response.json())
-      .then(responseJson => {
-        this.setState({
-          followers: {
-            pending: false,
-            value: responseJson
-          }
-        });
-      })
-      .catch(error => {
-        this.setState({
-          followers: {
-            pending: false,
-            rejected: error
-          }
-        });
-      });
+    this.props.getUser();
+    this.props.getFollowersForUser();
   }
 
   renderUserInfo() {
     // Should be a separate component!
-    if (this.state.userInfo.pending) {
+    if (this.props.user.pending) {
       return <ActivityIndicator small />;
     }
 
-    if (this.state.userInfo.rejected) {
+    if (this.props.user.rejected) {
       return (
         <Text>
-          Error: {JSON.stringify(this.state.userInfo.rejected, null, 2)}
+          Error: {JSON.stringify(this.props.user.rejected, null, 2)}
         </Text>
       );
     }
 
-    const user = this.state.userInfo.value;
+    const user = this.props.user.value;
 
     return (
       <View style={styles.userInfo}>
@@ -133,21 +85,21 @@ class UserProfile extends Component {
 
   renderFollowers() {
     // Should be a separate component!
-    if (this.state.followers.pending) {
+    if (this.props.followers.pending) {
       return <ActivityIndicator small />;
     }
 
-    if (this.state.followers.rejected) {
+    if (this.props.followers.rejected) {
       return (
         <Text>
-          Error: {JSON.stringify(this.state.followers.rejected, null, 2)}
+          Error: {JSON.stringify(this.props.followers.rejected, null, 2)}
         </Text>
       );
     }
 
     return (
       <View style={styles.followersList}>
-        {this.state.followers.value.map(follower => (
+        {this.props.followers.value.map(follower => (
           <Avatar key={follower.id} url={follower.avatar_url} />
         ))}
       </View>
