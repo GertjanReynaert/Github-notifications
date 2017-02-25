@@ -6,7 +6,7 @@ import { Provider } from 'react-redux';
 import createLogger from 'redux-logger';
 import fetchMiddleware from './fetchMiddleware';
 
-import UserProfileContainer from './UserProfileContainer';
+import Profiles from './Profiles';
 import reducer from './reducer';
 
 const logger = createLogger({
@@ -25,7 +25,7 @@ class App extends Component {
   render() {
     return (
       <Provider store={store}>
-        <UserProfileContainer user="gertjanreynaert" />
+        <Profiles user="gertjanreynaert" />
       </Provider>
     );
   }

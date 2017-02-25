@@ -4,18 +4,20 @@ export default store => next => action => {
   next({ type: `${action.payload.fetchId}_REQUEST` });
 
   return fetch(action.payload.url, { method: action.payload.method })
-    .then(response => response.json())
-    .then(responseJson => {
+    .then(response => response.json().then(json => ({ response, json })))
+    .then(({ response, json }) => {
+      if (!response.ok) {
+        next({
+          type: `${action.payload.fetchId}_FAILURE`,
+          payload: {}
+        });
+      }
+
       next({
         type: `${action.payload.fetchId}_SUCCESS`,
-        payload: responseJson
-      });
-    })
-    .catch(error => {
-      next({
-        type: `${action.payload.fetchId}_FAILURE`,
         payload: {
-          error
+          request: action.payload,
+          response: json
         }
       });
     });

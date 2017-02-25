@@ -9,7 +9,7 @@ import {
   TouchableHighlight,
   StyleSheet
 } from 'react-native';
-import Avatar from './Avatar';
+import Avatar from './components/Avatar';
 
 const styles = StyleSheet.create({
   view: {
@@ -35,35 +35,30 @@ const styles = StyleSheet.create({
 });
 
 type Props = {
+  username: string,
+  user: typeof undefined | Object,
+  followers: typeof undefined | Object,
+  errors: boolean,
   getUser: () => void,
   getFollowersForUser: () => void,
-  user: Object,
-  followers: Object
+  goTo: () => void
 };
 
 class UserProfile extends Component {
   props: Props;
 
   componentWillMount() {
-    this.props.getUser();
-    this.props.getFollowersForUser();
+    this.props.getUser(this.props.username);
+    this.props.getFollowersForUser(this.props.username);
   }
 
   renderUserInfo() {
     // Should be a separate component!
-    if (this.props.user.pending) {
+    if (this.props.user === undefined) {
       return <ActivityIndicator small />;
     }
 
-    if (this.props.user.rejected) {
-      return (
-        <Text>
-          Error: {JSON.stringify(this.props.user.rejected, null, 2)}
-        </Text>
-      );
-    }
-
-    const user = this.props.user.value;
+    const user = this.props.user;
 
     return (
       <View style={styles.userInfo}>
@@ -85,24 +80,16 @@ class UserProfile extends Component {
 
   renderFollowers() {
     // Should be a separate component!
-    if (this.props.followers.pending) {
+    if (this.props.followers === undefined) {
       return <ActivityIndicator small />;
-    }
-
-    if (this.props.followers.rejected) {
-      return (
-        <Text>
-          Error: {JSON.stringify(this.props.followers.rejected, null, 2)}
-        </Text>
-      );
     }
 
     return (
       <View style={styles.followersList}>
-        {this.props.followers.value.map(follower => (
+        {this.props.followers.map(follower => (
           <Avatar
             touchable
-            onPress={() => console.log(follower.login)}
+            onPress={() => this.props.goTo(follower.login)}
             url={follower.avatar_url}
             key={follower.id}
           />
@@ -116,6 +103,7 @@ class UserProfile extends Component {
       <ScrollView style={styles.view}>
         {this.renderUserInfo()}
         {this.renderFollowers()}
+        {this.props.errors ? <Text>An error has occured</Text> : null}
       </ScrollView>
     );
   }
