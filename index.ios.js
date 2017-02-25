@@ -11,7 +11,7 @@ import Followers from './src/Followers';
 export default class GithubNotifications extends Component {
   render() {
     return (
-      <Followers />
+      <Followers user="GertjanReynaert" />
     );
   }
 }

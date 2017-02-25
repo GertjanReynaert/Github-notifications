@@ -20,6 +20,11 @@ const styles = StyleSheet.create({
 });
 
 type Props = {
+  userInfo: {
+    pending: Boolean,
+    rejected: Boolean,
+    value: Array<Object>,
+  },
   followers: {
     pending: Boolean,
     rejected: Boolean,
@@ -29,12 +34,6 @@ type Props = {
 
 class Followers extends Component {
   props: Props
-  constructor(props) {
-    super(props);
-    this.state = {
-      user: 'GertjanReynaert',
-    };
-  }
 
   renderFollowers() {
     // Should be a separate component!
@@ -45,7 +44,32 @@ class Followers extends Component {
     if (this.props.followers.rejected) {
       return (
         <Text>
-          Error: {JSON.stringify(this.state.error, null, 2)}
+          Error: {JSON.stringify(this.props.followers.value, null, 2)}
+        </Text>
+      );
+    }
+
+    return (
+      <View style={styles.followersList}>
+        {
+          this.props.followers.value.map(follower => (
+            <Image key={follower.id} source={{ uri: follower.avatar_url }} style={styles.avatar} />
+          ))
+        }
+      </View>
+    );
+  }
+
+  renderUserInfo() {
+    // Should be a separate component!
+    if (this.props.userInfo.pending) {
+      return <ActivityIndicator small />;
+    }
+
+    if (this.props.userInfo.rejected) {
+      return (
+        <Text>
+          Error: {JSON.stringify(this.props.followers.value, null, 2)}
         </Text>
       );
     }
@@ -53,15 +77,11 @@ class Followers extends Component {
     return (
       <View>
         <Text>
-          Followers: {this.props.followers.value.length}
+          User: { this.props.userInfo.value.name }
         </Text>
-        <View style={styles.followersList}>
-          {
-            this.props.followers.value.map(follower => (
-              <Image source={{ uri: follower.avatar_url }} style={styles.avatar} />
-            ))
-          }
-        </View>
+        <Text>
+          Followers: {this.props.userInfo.value.followers}
+        </Text>
       </View>
     );
   }
@@ -69,17 +89,14 @@ class Followers extends Component {
   render() {
     return (
       <View style={styles.view}>
-        <Text>
-          User: { this.state.user }
-        </Text>
-        {
-          this.renderFollowers()
-        }
+        { this.renderUserInfo() }
+        { this.renderFollowers() }
       </View>
     );
   }
 }
 
-export default connect(() => ({
-  followers: 'https://api.github.com/users/GertjanReynaert/followers',
+export default connect(props => ({
+  userInfo: `https://api.github.com/users/${props.user}`,
+  followers: `https://api.github.com/users/${props.user}/followers`,
 }))(Followers);
