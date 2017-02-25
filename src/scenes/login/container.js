@@ -1,6 +1,6 @@
 // @flow
 
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 
 import OAuthManager from 'react-native-oauth';
 import { connect } from 'react-refetch';
@@ -25,6 +25,10 @@ type Props = {
 
 class GithubNotifications extends Component {
   props: Props;
+  static childContextTypes = {
+    accessToken: PropTypes.string,
+  };
+
   constructor(props) {
     super(props);
 
@@ -33,9 +37,27 @@ class GithubNotifications extends Component {
     };
   }
 
+  getChildContext() {
+    return {
+      accessToken: this.state.accessToken,
+    };
+  }
+
+  componentWillMount() {
+    manager.savedAccounts()
+    .then(({ accounts }) => {
+      const account = accounts.find(account => account.provider === 'github');
+      this.setState({ accessToken: account.response.credentials.accessToken });
+    })
+  }
+
+  componentWillUnmount() {
+    manager.deauthorize('github');
+  }
+
   render() {
     const authorize = () => {
-      manager.authorize('github')
+      manager.authorize('github', { scopes: 'notifications' })
         .then((resp) => { this.setState({ accessToken: resp.response.credentials.accessToken }); })
         .catch(err => console.log('There was an error', err));
     };
