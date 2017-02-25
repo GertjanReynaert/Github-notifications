@@ -1,0 +1,35 @@
+{
+  "extends": ["airbnb", "plugin:react-native/all"],
+  "parser": "babel-eslint",
+  "env": {
+    "browser": true
+  },
+  "plugins": [
+    "react-native"
+  ],
+  "rules": {
+    "react/prefer-stateless-function": ["warn"],
+    "react/jsx-filename-extension": ["off"],
+    "no-multiple-empty-lines": [ "error", { "max": 1, "maxEOF": 1 } ],
+    "react/sort-comp": [
+      "error",
+      {
+        "order": [
+          "type-annotations",
+          "props",
+          "context",
+          "state",
+          "defaultProps",
+          "constructor",
+          "lifecycle",
+          "/^on.+$/",
+          "/^(get|set)(?!(InitialState$|DefaultProps$|ChildContext$)).+$/",
+          "everything-else",
+          "/^render.+$/",
+          "render"
+        ]
+      }
+    ]
+  }
+}
+
