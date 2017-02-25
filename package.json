@@ -1,33 +1,20 @@
 {
-	"name": "github_notifications",
+	"name": "githubNotifications",
 	"version": "0.0.1",
 	"private": true,
 	"scripts": {
 		"start": "node node_modules/react-native/local-cli/cli.js start",
-		"test": "jest",
-		"eslint": "eslint --fix ./src"
+		"test": "jest"
 	},
 	"dependencies": {
-		"buffer": "5.0.4",
-		"react": "~15.4.0-rc.4",
-		"react-native": "^0.41.2",
-		"react-native-oauth": "2.1.16",
-		"react-navigation": "1.0.0-beta.1",
-		"react-refetch": "1.0.0"
+		"react": "~15.4.0",
+		"react-native": "0.41.2"
 	},
 	"devDependencies": {
-		"babel-eslint": "7.1.1",
-		"babel-jest": "18.0.0",
+		"babel-jest": "19.0.0",
 		"babel-preset-react-native": "1.9.1",
-		"eslint": "3.15.0",
-		"eslint-config-airbnb": "14.1.0",
-		"eslint-plugin-import": "2.2.0",
-		"eslint-plugin-jsx-a11y": "4.0.0",
-		"eslint-plugin-react": "6.9.0",
-		"eslint-plugin-react-native": "2.2.1",
-		"flow-bin": "^0.39.0",
-		"jest": "18.1.0",
-		"react-test-renderer": "~15.4.0-rc.4"
+		"jest": "19.0.2",
+		"react-test-renderer": "~15.4.0"
 	},
 	"jest": {
 		"preset": "react-native"
