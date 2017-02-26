@@ -9,7 +9,7 @@ import {
   TouchableHighlight,
   StyleSheet
 } from 'react-native';
-import Avatar from './components/Avatar';
+import Avatar from '../components/Avatar';
 
 const styles = StyleSheet.create({
   view: {

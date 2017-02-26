@@ -1,9 +1,9 @@
 // @flow
 import React, { Component } from 'react';
 import { View, Text, Image, TextInput, StyleSheet } from 'react-native';
-import githubLogo from '../assets/github_logo.png';
-import Button from '../components/Button';
-import { lightergray } from '../assets/colors';
+import githubLogo from '../../assets/github_logo.png';
+import Button from '../../components/Button';
+import { lightergray } from '../../assets/colors';
 
 const styles = StyleSheet.create({
   container: {
@@ -46,7 +46,12 @@ const styles = StyleSheet.create({
   }
 });
 
+type Props = {
+  setBasicAuthentication: () => void
+};
+
 class Login extends Component {
+  props: Props;
   constructor(props) {
     super(props);
 
@@ -86,7 +91,10 @@ class Login extends Component {
           <Button
             title="Sign in"
             onPress={() =>
-              console.log(this.state.username, this.state.password)}
+              this.props.setBasicAuthentication(
+                this.state.username,
+                this.state.password
+              )}
           />
 
           <View style={styles.horizontalRow} />

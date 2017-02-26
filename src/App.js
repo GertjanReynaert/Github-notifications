@@ -6,8 +6,8 @@ import { Provider } from 'react-redux';
 import createLogger from 'redux-logger';
 import fetchMiddleware from './fetchMiddleware';
 
-import Login from './scenes/Login';
-import reducer from './reducer';
+import Session from './scenes/Session/container';
+import reducers from './reducers';
 
 const logger = createLogger({
   level: 'info',
@@ -15,7 +15,7 @@ const logger = createLogger({
   predicate: () => __DEV__
 });
 
-const store = createStore(reducer, applyMiddleware(fetchMiddleware, logger));
+const store = createStore(reducers, applyMiddleware(fetchMiddleware, logger));
 
 type Props = {
   children: Element
@@ -25,7 +25,7 @@ class App extends Component {
   render() {
     return (
       <Provider store={store}>
-        <Login />
+        <Session />
       </Provider>
     );
   }
