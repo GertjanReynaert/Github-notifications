@@ -6,7 +6,7 @@ import { Provider } from 'react-redux';
 import createLogger from 'redux-logger';
 import fetchMiddleware from './fetchMiddleware';
 
-import Profiles from './Profiles';
+import Profiles from './scenes/Profiles';
 import reducer from './reducer';
 
 const logger = createLogger({
