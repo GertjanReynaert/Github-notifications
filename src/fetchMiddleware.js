@@ -9,8 +9,12 @@ export default store => next => action => {
       if (!response.ok) {
         next({
           type: `${action.payload.fetchId}_FAILURE`,
-          payload: {}
+          payload: {
+            request: action.payload,
+            response: json
+          }
         });
+        return;
       }
 
       next({
