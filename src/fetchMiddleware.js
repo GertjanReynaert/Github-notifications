@@ -3,7 +3,10 @@ export default store => next => action => {
 
   next({ type: `${action.payload.fetchId}_REQUEST` });
 
-  return fetch(action.payload.url, { method: action.payload.method })
+  return fetch(action.payload.url, {
+    method: action.payload.method,
+    headers: action.payload.headers
+  })
     .then(response => response.json().then(json => ({ response, json })))
     .then(({ response, json }) => {
       if (!response.ok) {

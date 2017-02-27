@@ -10,7 +10,7 @@ const mapStateToProps = state => {
 
   return {
     accessToken: state.session.accessToken,
-    notifications,
+    notifications: notifications ? notifications.response : undefined,
     errors
   };
 };
