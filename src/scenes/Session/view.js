@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import Notifications from '../Notifications/container';
+import Notifications from '../Notifications/view';
 import Login from '../Login/container';
 
 export default class Session extends Component {

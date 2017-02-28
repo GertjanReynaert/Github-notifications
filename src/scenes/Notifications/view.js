@@ -1,43 +1,59 @@
 // @flow
-import React, { Component, PropTypes } from 'react';
-import { ActivityIndicator, Text, ListView } from 'react-native';
+import React, { Component } from 'react';
+import { View, SegmentedControlIOS, StyleSheet } from 'react-native';
 
-import Notification from './Notification';
+import NotificationListContainer from './NotificationListContainer';
+
+const styles = StyleSheet.create({
+  icon: {
+    width: 26,
+    height: 26
+  },
+  wrapper: {
+    flex: 1,
+    paddingTop: 25
+  },
+  tabs: {
+    margin: 15
+  }
+});
 
 type Props = {
-  getNotifications: () => void,
-  accessToken: string,
-  notifications: typeof undefined | Array<Object>
+  notifications: {
+    pending: Boolean,
+    value: Array<Object>
+  }
 };
 
-export default class Notifications extends Component {
+class Notifications extends Component {
   props: Props;
-  componentWillMount() {
-    this.props.getNotifications(this.props.accessToken);
-
-    this.dataSource = new ListView.DataSource({
-      rowHasChanged: (row1, row2) => row1.id !== row2.id
-    });
+  constructor(props) {
+    super(props);
+    this.state = {
+      activeTab: 0
+    };
   }
 
   render() {
-    if (this.props.notifications === undefined) {
-      return <ActivityIndicator small />;
-    }
-
-    if (this.props.errors) {
-      return <Text>{JSON.stringify(this.props.errors)}</Text>;
-    }
-
-    const notifications = this.dataSource.cloneWithRows(
-      this.props.notifications
-    );
-
     return (
-      <ListView
-        dataSource={notifications}
-        renderRow={notification => <Notification notification={notification} />}
-      />
+      <View style={styles.wrapper}>
+        <SegmentedControlIOS
+          style={styles.tabs}
+          values={['All', 'Participating']}
+          selectedIndex={this.state.activeTab}
+          onChange={event => {
+            this.setState({
+              activeTab: event.nativeEvent.selectedSegmentIndex
+            });
+          }}
+        />
+
+        <NotificationListContainer
+          tab={this.state.activeTab === 0 ? 'all' : 'participating'}
+        />
+      </View>
     );
   }
 }
+
+export default Notifications;

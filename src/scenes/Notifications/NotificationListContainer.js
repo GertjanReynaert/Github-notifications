@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import Notifications from './view';
+import NotificationList from './NotificationList';
 
 const mapStateToProps = state => {
   const notifications = state.GET_NOTIFICATIONS.reverse()[0];
@@ -16,11 +16,12 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = {
-  getNotifications: accessToken => ({
+  getNotifications: (tab, accessToken) => ({
     type: 'FETCH',
     payload: {
       fetchId: 'GET_NOTIFICATIONS',
       url: `https://api.github.com/notifications`,
+      url: `https://api.github.com/notifications?${tab}=true`,
       headers: {
         Authorization: accessToken
       },
@@ -29,4 +30,4 @@ const mapDispatchToProps = {
   })
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Notifications);
+export default connect(mapStateToProps, mapDispatchToProps)(NotificationList);
